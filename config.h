@@ -6,14 +6,19 @@ static const unsigned int gappx     = 10;       /* window gap size */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=11" };
-static const char dmenufont[]       = "monospace:size=11";
+static const char *fonts[]          = { "monospace:size=14" };
+static const char dmenufont[]       =   "monospace:size=14"  ;
 static const char col_gray[]        = "#424242";
-static const char col_red[]         = "#c44751";
+/*
+ * List of some colors
+ * red  #c44751
+ * gold #ffd700
+*/
+static const char pref_col[]        = "#ffd700"; /* Pick color here. */
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_red, col_gray, col_gray },
-	[SchemeSel]  = { col_gray, col_red,  col_red  },
+	[SchemeNorm] = { pref_col, col_gray, col_gray },
+	[SchemeSel]  = { col_gray, pref_col, pref_col },
 };
 
 /* tagging */
@@ -25,8 +30,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "PCSX2",    NULL,       NULL,       0,            1,           -1 },
+	{ "Blender",  NULL,       NULL,       0 << 5,       1,           -1 }, 
 };
 
 /* layout(s) */
@@ -54,8 +58,9 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray, "-nf", col_red, "-sb", col_red, "-sf", col_gray, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray, "-nf", pref_col, "-sb", pref_col, "-sf", col_gray, NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
+static const char *printscreen[] = { "printscreen", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -84,6 +89,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+    { MODKEY|ShiftMask,             XK_a,      spawn,          {.v = printscreen } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -112,4 +118,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-

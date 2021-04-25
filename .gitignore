@@ -1,5 +1,7 @@
 # Log files
-dwm.log
+*.log
+*.1
+dwm
 
 # Prerequisites
 *.d
